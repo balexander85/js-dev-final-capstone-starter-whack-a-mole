@@ -4,11 +4,11 @@ const startButton = document.querySelector('#start');
 const score = document.querySelector('#score');
 const timerDisplay = document.querySelector('#timer');
 
-let time = 10;
+let time = 0;
 let timer;
 let lastHole = 0;
 let points = 0;
-let difficulty = "hard";
+let difficulty = 'easy';
 
 /**
  * Generates a random integer within a range.
@@ -39,11 +39,11 @@ function randomInteger(min, max) {
  *
  */
 function setDelay(difficulty) {
-    if (difficulty === "easy") {
+    if (difficulty === 'easy') {
         return 1500;
-    } else if (difficulty === "normal") {
+    } else if (difficulty === 'normal') {
         return 1000;
-    } else if (difficulty === "hard") {
+    } else if (difficulty === 'hard') {
         return randomInteger(600, 1200);
     }
 }
@@ -63,7 +63,7 @@ function setDelay(difficulty) {
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
 function chooseHole(holes) {
-    const randomIndex = Math.floor(Math.random() * holes.length);
+    const randomIndex = randomInteger(0, holes.length);
     let randomHole = holes[randomIndex];
     if (randomHole === lastHole) {
         randomHole = chooseHole(holes);
@@ -94,9 +94,8 @@ function chooseHole(holes) {
 function gameOver() {
     if (time > 0) {
         return showUp()
-    } else {
-        return stopGame();
     }
+    return stopGame();
 }
 
 /**
@@ -109,7 +108,7 @@ function gameOver() {
  *
  */
 function showUp() {
-    let delay = setDelay("easy");
+    let delay = setDelay(difficulty);
     const hole = chooseHole(holes);
     return showAndHide(hole, delay);
 }
@@ -137,7 +136,7 @@ function showAndHide(hole, delay) {
  *
  */
 function toggleVisibility(hole) {
-    hole.classList.toggle('visible')
+    hole.classList.toggle('show')
     return hole;
 }
 
@@ -152,7 +151,8 @@ function toggleVisibility(hole) {
  *
  */
 function updateScore() {
-    points.textContent = points++;
+    points++
+    score.textContent = points;
     return points;
 }
 
@@ -176,7 +176,7 @@ function clearScore() {
  */
 function updateTimer() {
     if (time > 0){
-        time -= 1;
+        time--;
         timerDisplay.textContent = time;
     }
     return time;
@@ -201,9 +201,9 @@ function startTimer() {
  * the moles.
  *
  */
-function whack(event) {
+function whack() {
     updateScore();
-    // event.target =
+    return points;
 }
 
 /**
@@ -226,6 +226,7 @@ function setEventListeners() {
  */
 function setDuration(duration) {
     time = duration;
+    timerDisplay.textContent = time;
     return time;
 }
 
@@ -235,9 +236,10 @@ function setDuration(duration) {
  * timer using clearInterval. Returns "game stopped".
  *
  */
-function stopGame() {
-    // stopAudio(song);  //optional
+function stopGame(){
     clearInterval(timer);
+    startButton.disabled = false;
+    startButton.textContent = "START GAME";
     return "game stopped";
 }
 
@@ -248,12 +250,18 @@ function stopGame() {
  *
  */
 function startGame() {
-    setDuration(10);
+    startButton.disabled = true;
+    startButton.textContent = 'Game In Progress';
+    clearScore();
+    setEventListeners();
+    setDuration('15');
+    startTimer();
     showUp();
-    return "game started";
+
+    return 'game started';
 }
 
-startButton.addEventListener("click", startGame);
+startButton.addEventListener('click', startGame);
 
 
 // Please do not modify the code below.
