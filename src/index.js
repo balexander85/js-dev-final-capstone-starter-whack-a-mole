@@ -3,12 +3,26 @@ const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
 const score = document.querySelector('#score');
 const timerDisplay = document.querySelector('#timer');
+const gameStatus = document.querySelector('#status');
+const gameDuration = 15
 
 let time = 0;
 let timer;
 let lastHole = 0;
 let points = 0;
 let difficulty = 'easy';
+
+
+/**
+ * HTML of before game starts
+ *
+ */
+const startGameHTML = `<h2>Click <button id="start">Start</button> to play!</h2>`
+/**
+ * HTML of game in progress
+ *
+ */
+const gameInProgressHTML = `<h2>Game In Progress</h2>`
 
 /**
  * Generates a random integer within a range.
@@ -63,7 +77,7 @@ function setDelay(difficulty) {
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
 function chooseHole(holes) {
-    const randomIndex = randomInteger(0, holes.length);
+    const randomIndex = randomInteger(0, holes.length-1);
     let randomHole = holes[randomIndex];
     if (randomHole === lastHole) {
         randomHole = chooseHole(holes);
@@ -238,8 +252,7 @@ function setDuration(duration) {
  */
 function stopGame(){
     clearInterval(timer);
-    startButton.disabled = false;
-    startButton.textContent = "START GAME";
+    gameStatus.innerHTML = startGameHTML;
     return "game stopped";
 }
 
@@ -250,11 +263,10 @@ function stopGame(){
  *
  */
 function startGame() {
-    startButton.disabled = true;
-    startButton.textContent = 'Game In Progress';
+    gameStatus.innerHTML = gameInProgressHTML;
     clearScore();
     setEventListeners();
-    setDuration('15');
+    setDuration(gameDuration);
     startTimer();
     showUp();
 
