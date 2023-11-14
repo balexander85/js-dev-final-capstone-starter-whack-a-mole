@@ -1,12 +1,22 @@
 <html>
   <head>
     <link rel="stylesheet" href="./src/styles.css">
+    <title>Brian Alexander's Whack-A-Mole Game</title>
   </head>
   <body>
     <h1 id="title">Whack-A-Mole!!</h1>
     <div>
-      <div>
-        <h2>Click <button id="start">Start</button> to play!</h2>
+      <div class="group">
+        <h2 class="item">Click <button id="start">Start</button> to play!</h2>
+        <div class="item">
+          <label for="difficulty">
+            Select difficulty:
+            <select id="difficulty" name="difficulty">
+              <option value="easy" selected>Easy</option>
+              <option value="normal">Normal</option>
+              <option value="hard">Hard</option>
+          </select>
+        </label></div>
         <h2 id="status" hidden>Game In Progress</h2>
       </div>
       <div>
