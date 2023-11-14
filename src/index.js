@@ -252,7 +252,10 @@ function setDuration(duration) {
  */
 function stopGame(){
     clearInterval(timer);
-    gameStatus.innerHTML = startGameHTML;
+    gameStatus.hidden = true;
+    startButton.disabled = false;
+    startButton.parentElement.hidden = false;
+    startButton.textContent = 'Start';
     return "game stopped";
 }
 
@@ -263,7 +266,9 @@ function stopGame(){
  *
  */
 function startGame() {
-    gameStatus.innerHTML = gameInProgressHTML;
+    startButton.disabled = true;
+    startButton.parentElement.hidden = true;
+    gameStatus.hidden = false;
     clearScore();
     setEventListeners();
     setDuration(gameDuration);

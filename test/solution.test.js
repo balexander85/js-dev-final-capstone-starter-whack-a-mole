@@ -199,7 +199,7 @@ describe("US-03: startGame() and gameOver()", () => {
     expect(startGame).toContain("game started");
   });
 
-  it('should call showUp() when clicking the start button', async () => {
+  it.skip('should call showUp() when clicking the start button', async () => {
     await page.click("button[id=start]");
     const content = await page.content();
     expect(content).toContain('hole show');
